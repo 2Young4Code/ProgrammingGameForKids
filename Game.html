@@ -1,0 +1,155 @@
+<html>
+<head></head>
+<body>
+<input type = 'button' value = 'up' onclick = 'up()'></input>
+<input type = 'button' value = 'down' onclick = 'down()'></input>
+<input type = 'button' value = 'left' onclick = 'left()'></input>
+<input type = 'button' value = 'right' onclick = 'right()'></input>
+<input type = 'button' value = 'Run' onclick = 'Run()'></input>
+<div id = "square"></div>
+<div class = "wall"></div>
+<script>
+//https://jsfiddle.net/0rxs9jpy/
+          var moves = [];
+          leftpx = 0;
+          downpx = 0;
+          uppx = 0;
+          rightpx = 0;
+          var up = function() {
+
+              moves.push('up')
+
+          }
+
+          var down = function() {
+
+              moves.push('down')
+
+          }
+
+          var left = function() {
+
+              moves.push('left')
+
+          }
+
+          var right = function() {
+
+              moves.push('right')
+
+          }
+
+
+          function setTimeoutPromise(ms) {
+              return new Promise(function(resolve) {
+                  setTimeout(resolve, ms);
+              });
+          }
+
+          function foo(item, ms) {
+              return function() {
+                  return setTimeoutPromise(ms).then(function() {
+					  myMove(item)
+
+                  });
+              };
+          }
+
+
+          function bar() {
+              var chain = Promise.resolve();
+              moves.forEach(function(el, i) {
+                  chain = chain.then(foo(el,  600));
+              });
+              return chain;
+          }
+
+          bar().then(function() {});
+
+
+          var Run = function() {
+              bar();
+              moves = [];
+          }
+		   
+		   // var ShowWall = function(){
+			// var wall = document.getElementsByClassName('wall');   
+			// var walls = []; 
+			   
+			 // for(var i = 0;i<wall.length;i++){walls.push(wall[i])}  
+			 // for(var y = 0;y<walls.length;y++){walls[y].style.backgroundColor = 'black';walls[y].style.top = '100px'}  
+			 
+			   
+			   
+		   // }
+            // ShowWall()
+          function myMove(direction) {
+              var elem = document.getElementById("square");
+			  var pos = 100;
+			  if(direction=='up' || direction =='left'){
+				  pos=pos*(-1);
+			  }
+              var id = setInterval(frame, 5);
+			  if(direction=='up' || direction == 'down'){
+              var i = elem.style.top == '' ? 0 : parseInt(elem.style.top.replace('px', ''));
+              pos = elem.style.top == '' ? pos : pos + i;
+			  }else{
+			  var i = elem.style.left == '' ? 0 : parseInt(elem.style.left.replace('px', ''));
+              pos = elem.style.left == '' ? pos : pos + i;
+ 
+				  
+			  }
+              console.log(i + ' ' + pos);
+
+              function frame() {
+				  if(direction=='up' || direction == 'down'){
+                  if (elem.style.top == pos + 'px') {
+                      clearInterval(id);
+                  } else {
+
+
+                     if(direction=='up'){ elem.style.top = (i--) + "px";}
+                     if(direction=='down'){ elem.style.top = (i++) + "px";}
+
+                  }
+				  }
+				  if(direction=='left' || direction == 'right'){
+                  if (elem.style.left == pos + 'px') {
+                      clearInterval(id);
+                  } else {
+
+
+                     if(direction=='left'){ elem.style.left = (i--) + "px";}
+                     if(direction=='right'){ elem.style.left = (i++) + "px";}
+
+                  }
+				  }
+              }
+          }
+
+      
+</script>
+<style>
+
+
+
+ #square{
+  
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+    position: relative;
+  animation: myfirst 5s linear 2s infinite alternate;
+  
+}
+.wall{
+  width: 100px;
+  height: 10px;
+
+
+}
+</style>
+
+
+</body>
+</html>
