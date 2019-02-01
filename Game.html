@@ -1,13 +1,18 @@
 <html>
 <head></head>
 <body>
+<div>
 <input type = 'button' value = 'up' onclick = 'up()'></input>
 <input type = 'button' value = 'down' onclick = 'down()'></input>
 <input type = 'button' value = 'left' onclick = 'left()'></input>
 <input type = 'button' value = 'right' onclick = 'right()'></input>
 <input type = 'button' value = 'Run' onclick = 'Run()'></input>
+</div>
+
+<div id = "map">
 <div id = "square"></div>
-<div class = "wall"></div>
+</div>
+
 <script>
 //https://jsfiddle.net/0rxs9jpy/
           var moves = [];
@@ -72,18 +77,23 @@
               moves = [];
           }
 		   
-		   // var ShowWall = function(){
-			// var wall = document.getElementsByClassName('wall');   
-			// var walls = []; 
-			   
-			 // for(var i = 0;i<wall.length;i++){walls.push(wall[i])}  
-			 // for(var y = 0;y<walls.length;y++){walls[y].style.backgroundColor = 'black';walls[y].style.top = '100px'}  
+		   window.Walls = [{x : '15%', width : '10%', height: '1%'},{x : '5%', width : '10%', height: '1%'},{x : '5%', y : '10%', width : '10%', height: '1%'},{x : '15%', y : '10%', width : '10%', height: '1%'},{x : '5%', y : '20%', width : '7%', height: '1%'},{x : '15%', y : '20%', width : '1%', height: '20%'}];
+
+window.Setup = function(){
+for(var i =0; i< window.Walls.length; i++){
+MakeWall(window.Walls[i]);
+}
+}		   
+		   
+		    var MakeWall = function(wall){
+		
 			 
-			   
-			   
-		   // }
-            // ShowWall()
-          function myMove(direction) {
+			   var map = document.getElementById('map');   
+			   map.innerHTML += "<div class='wall' style='top:"+wall.x+"; left:"+wall.y+"; width:"+wall.width+"; height:"+wall.height+"' >"
+
+		    }
+
+         debugger;function myMove(direction) {
               var elem = document.getElementById("square");
 			  var pos = 100;
 			  if(direction=='up' || direction =='left'){
@@ -102,6 +112,7 @@
               console.log(i + ' ' + pos);
 
               function frame() {
+
 				  if(direction=='up' || direction == 'down'){
                   if (elem.style.top == pos + 'px') {
                       clearInterval(id);
@@ -127,14 +138,14 @@
               }
           }
 
-      
+window.Setup();      
 </script>
 <style>
 
 
 
  #square{
-  
+  top:10px;
   width: 50px;
   height: 50px;
   background-color: blue;
@@ -143,9 +154,15 @@
   
 }
 .wall{
-  width: 100px;
-  height: 10px;
+position: absolute;
+background-color: black;
 
+}
+.Swall{
+position: absolute;
+background-color: black;
+
+  
 
 }
 </style>
